@@ -58,7 +58,34 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  
+  
+    function playSound(e){
+    
+    //We are going to check if an audio tag exists with the keycode same as that of the ley pressed. Use the captured event properties.
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`); // same as document.querySelector(`div class[keys][data-key="${e.keyCode}"]`)
+    if(!audio) return;
+    audio.currentTime = 0;
+    audio.play();
+    //After playing it, we want to add some animation, basically making it pop. So we add the class play which will change the borden color and size
+    key.classList.add('playing');
+  }
 
+  function removeTransition(e){
+    if(e.propertyName != 'transform') return;
+
+    this.classList.remove('playing');
+  }
+
+  //We are going to listen for a keydown evant and then play corresponding sound
+  window.addEventListener('keydown', playSound);
+
+  const keys = document.querySelectorAll('.key');
+ 
+  //After the transition ends, we want to remove the playing class so the key goes back to its original appearance
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  
 </script>
 
 
